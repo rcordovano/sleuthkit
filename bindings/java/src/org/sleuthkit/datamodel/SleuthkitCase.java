@@ -1,7 +1,7 @@
 /*
  * Sleuth Kit Data Model
  *
- * Copyright 2011-2019 Basis Technology Corp.
+ * Copyright 2011-2020 Basis Technology Corp.
  * Contact: carrier <at> sleuthkit <dot> org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -82,7 +82,6 @@ import org.sleuthkit.datamodel.TskData.TSK_FS_NAME_FLAG_ENUM;
 import org.sleuthkit.datamodel.TskData.TSK_FS_NAME_TYPE_ENUM;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
-import org.sqlite.SQLiteJDBCLoader;
 
 /**
  * Represents the case database with methods that provide abstractions for
@@ -316,7 +315,6 @@ public class SleuthkitCase {
 		this.connections = new SQLiteConnections(dbPath);
 		this.caseHandle = caseHandle;
 		init();
-		logSQLiteJDBCDriverInfo();
 	}
 
 	/**
@@ -986,19 +984,6 @@ public class SleuthkitCase {
 				logger.log(Level.WARNING, "Could not close streams after db copy", e); //NON-NLS
 			}
 			releaseSingleUserCaseWriteLock();
-		}
-	}
-
-	/**
-	 * Write some SQLite JDBC driver details to the log file.
-	 */
-	private void logSQLiteJDBCDriverInfo() {
-		try {
-			SleuthkitCase.logger.info(String.format("sqlite-jdbc version %s loaded in %s mode", //NON-NLS
-					SQLiteJDBCLoader.getVersion(), SQLiteJDBCLoader.isNativeMode()
-					? "native" : "pure-java")); //NON-NLS
-		} catch (Exception ex) {
-			SleuthkitCase.logger.log(Level.SEVERE, "Error querying case database mode", ex);
 		}
 	}
 
