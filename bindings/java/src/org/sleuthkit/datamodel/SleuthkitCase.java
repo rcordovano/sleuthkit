@@ -10695,6 +10695,7 @@ public class SleuthkitCase {
 		} catch (SQLException ex) {
 			throw new TskCoreException("Error querying reports table", ex);
 		} finally {
+			connection.close();
 			releaseSingleUserCaseWriteLock();
 		}
 	}
